@@ -4,7 +4,6 @@ var httpserver=require('http').Server(app);
 var io= require('socket.io')(httpserver);
 var np=0;
 var maxplayers=2;
-var colors=['0000ff','ff0000'];
 app.use(express.static(__dirname));
 app.set('view engine', 'pug');
 
@@ -21,7 +20,7 @@ app.get('/', function(req, res){
    io.emit('numplayers',{num: np.toString(), start: "0"})
    socket.on('userjoin',function(){
      np++;
-     socket.emit('mycolor',{color:colors[np-1]});
+     socket.emit('mycolor',{color:(np-1).toString()});
      console.log(np.toString());
      if(np==maxplayers){
        io.emit('numplayers',{num: np.toString(),start:'1'});
@@ -30,5 +29,10 @@ app.get('/', function(req, res){
        io.emit('numplayers',{num: np.toString(),start:'0'});
      }
 
-   })
+   });
+   socket.on('click',function(data){
+     console.log(data);
+     socket.broadcast.emit('redraw',{change:data.change,color:data.color});
+   });
+
  });
