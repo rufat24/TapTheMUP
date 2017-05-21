@@ -9,6 +9,11 @@ body{
 
   to {opacity:0.8}
 }
+.map{
+  border-radius: 10px;
+  margin-left: 50vh;
+  margin-top: 5vh;
+}
 .lobby{
     width:80vh;
     height:  30vh;
@@ -23,9 +28,6 @@ body{
     animation-duration: 1s;
     animation-timing-function: ease-in-out;
     margin-top: 10vh;
-}
-.map{
-  border-radius: 10px;
 }
 .texty{
   color: #EFF1F6;
