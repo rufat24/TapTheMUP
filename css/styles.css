@@ -1,9 +1,59 @@
-.lobby{
+body{
+  background: #DDE0E8;
+  width:100%;
+	height:100%;
+	margin: 0px;
+}
+@keyframes slidein {
+  from { opacity: 0;}
 
+  to {opacity:0.8}
+}
+.lobby{
+    width:80vh;
+    height:  30vh;
+    background-color: #5790D4;
+    margin:auto;
+    border-radius: 5px;
+    text-align: center;
+    border: 2px solid #1B1D20 !important;
+    position: relative;
+    opacity: 0.8;
+    animation-name: slidein;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
+    margin-top: 10vh;
 }
 .map{
   border-radius: 10px;
 }
-body{
-  color: #000;
+.texty{
+  color: #EFF1F6;
+  font-family:    Georgia, Helvetica, sans-serif;
+  font-size:      8vh;
+  font-weight:    bold;
+  display: inline;
+}
+@keyframes joinanimation {
+    0% {border: 2px solid #E8EFF1 ;}
+    50% {border: 2px solid #F8FF0E ;}
+    100% {border: 2px solid #E8EFF1 ;}
+}
+.join{
+  margin-top: 10%;
+  width: 30%;
+  margin-left: 35%;
+  height: auto;
+  color: #EFF1F6;
+  font-family:    Georgia, Helvetica, sans-serif;
+  font-size:      7vh;
+  font-weight:    bold;
+  border-radius: 5px;
+  border: 2px solid #E8EFF1 ;
+  animation-name: joinanimation;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  cursor: hand;
+  cursor: pointer;
+  position: absolute;
 }
