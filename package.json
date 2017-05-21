@@ -1,0 +1,16 @@
+{
+  "name": "tapthemup",
+  "version": "1.0.0",
+  "description": "The game created for fun",
+  "main": "main.js",
+  "scripts": {
+    "test": "node"
+  },
+  "author": "Rufat",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.15.3",
+    "node": "0.0.0",
+    "pug": "^2.0.0-rc.1"
+  }
+}
