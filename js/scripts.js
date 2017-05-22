@@ -6,7 +6,6 @@ $(document).ready(function() {
   var colorOf=0;
   var key="";
   var colors=['2f00ff','ff4545','4de14d'];
-  var inds=['1','2','3','4','5','6','7','8','9','10'];
   $(".map").hide();
   socket.on('numplayers', function (data) {
     console.log(data);
@@ -24,9 +23,8 @@ $(document).ready(function() {
         fillOpacity: 1,
         stroke: true,
         strokeColor: "000",
-        strokeOpacity: 0.8,
-        strokeWidth: 2,
-
+        strokeOpacity: 1,
+        strokeWidth: 3,
         });
   });
   socket.on('redraw', function (data) {
@@ -35,25 +33,43 @@ $(document).ready(function() {
       console.log(key);
       colorOf=parseInt(data.color,10);
       var options = {
+        fill:true,
         fillColor: colors[colorInd],
         fillOpacity: 1,
         stroke: true,
         strokeColor: "000",
-        strokeOpacity: 0.8,
-        strokeWidth: 2,
+        strokeWidth: 3,
         areas:  [{
               key: key.toString(),
               selected: true,
+              fill:true,
               fillColor: colors[colorOf],
               fillOpacity:1,
               stroke: true,
               strokeColor: "000",
-              strokeOpacity: 0.8,
-              strokeWidth: 2,
-              set: true
+              strokeWidth: 3
            }]
       };
-      $('img').mapster('rebind',options);
+      $('img').mapster('rebind',options,true);
+  });
+
+  $('area').live('click',function() {
+    var a=parseInt($(this).attr('data-key'),10)-1;
+      var options = {
+        areas:  [{
+              key: a.toString(),
+              selected: true,
+              fill:true,
+              fillColor: colors[colorInd],
+              fillOpacity:1,
+              stroke: true,
+              strokeColor: "000",
+              strokeWidth: 3
+           }]
+      };
+      $('img').mapster('rebind',options,true);
+      console.log("I sent it "+$(this).attr('data-key')+" "+colorInd.toString());
+      socket.emit('click',{change:$(this).attr('data-key'),color:colorInd.toString()});
   });
 
   $('.join').live('click',function() {
@@ -61,32 +77,24 @@ $(document).ready(function() {
      $('.join').hide();
    });
 
+
+
+});
+/*   if(h%2==0){
+
+else{
+  $('img').mapster({
+    fillOpacity:1,
+    fillColor: "ff0000",
+    stroke: true,
+    strokeColor: "000",
+    strokeOpacity: 0.8,
+    strokeWidth: 4
+  });
+}*/
 /*  $('img').mousedown(function(e) {
    $(this).mapster({
      fillOpacity: 0.4,
      fillColor: "d42e16",
    });
 });*/
-$('area').mouseup(function(e) {
-    $(this).mapster('set',false);
-    console.log("I sent it "+$(this).attr('data-key')+" "+colorInd.toString());
-    socket.emit('click',{change:$(this).attr('data-key'),color:colorInd.toString()});
-
-     /*   if(h%2==0){
-
-     else{
-       $('img').mapster({
-         fillOpacity:1,
-         fillColor: "ff0000",
-         stroke: true,
-         strokeColor: "000",
-         strokeOpacity: 0.8,
-         strokeWidth: 4
-       });
-     }*/
-
-
-});
-
-
-});
