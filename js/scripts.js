@@ -39,6 +39,10 @@ $(document).ready(function() {
         stroke: true,
         strokeColor: "000",
         strokeWidth: 3,
+        render_highlight: {
+           fillColor: colors[colorInd],
+           fillOpacity: 1
+       },
         areas:  [{
               key: key.toString(),
               selected: true,
@@ -56,6 +60,12 @@ $(document).ready(function() {
   $('area').live('click',function() {
     var a=parseInt($(this).attr('data-key'),10)-1;
       var options = {
+        fill:true,
+        fillColor: colors[colorInd],
+        fillOpacity: 1,
+        stroke: true,
+        strokeColor: "000",
+        strokeWidth: 3,
         areas:  [{
               key: a.toString(),
               selected: true,
