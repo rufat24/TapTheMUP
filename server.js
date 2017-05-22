@@ -4,7 +4,7 @@ var httpserver=require('http').Server(app);
 var io= require('socket.io')(httpserver);
 var np=0;
 var maxplayers=2;
-var mapdata={1:"0",2:"0",3:"0",4:"0",5:"0",6:"0",7:"0",8:"0",9:"0",10:"0"};
+var mapdata={1:"-1",2:"-1",3:"-1",4:"-1",5:"-1",6:"-1",7:"-1",8:"-1",9:"-1",10:"-1"};
 app.use(express.static(__dirname));
 app.set('view engine', 'pug');
 
@@ -31,10 +31,23 @@ app.get('/', function(req, res){
 
    });
    socket.on('click',function(data){
-     console.log(data);
      mapdata[data.change]=data.color;
-     console.log(mapdata);
-     socket.broadcast.emit('redraw',{change:data.change,color:data.color});
+     io.emit('redraw',mapdata);
+     if(winner(parseInt(data.color,10))){
+       io.emit('winner', {color:parseInt(data.color,10)})
+     }
    });
 
  });
+
+
+   function winner(colorInd){
+     var win=0;
+      for (var areas in mapdata) {
+        if (parseInt(mapdata[areas],10)==colorInd) {
+            win++;
+        }
+      }
+      if(win==10) return true;
+      return false
+   }

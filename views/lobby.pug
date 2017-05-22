@@ -7,13 +7,20 @@ html
     script(src="js/scripts.js")
     script(src="/socket.io/socket.io.js")
     script(src="js/jquery.imagemapster.js")
-    script(src="js/jquery.maphilight.js")
   body
     div(class="lobby")
       div(class="texty")="Players:"
       div(id="num" class="texty")=number
       div(id="bum" class="texty")="/2"
       div(class="join" align="center")="Join"
+    div(class="modal" id="myModal")
+        div(class="modal-content")
+          div(class="modal-header")
+          div(class="modal-body")
+            div(class="modal-text")
+          div(class="modal-footer")
+            div.backtolobby
+              div.textlobby="Back to Lobby"
     div.map
       img( src="/images/map.jpg"  usemap="#Map")/
       map(name="Map" id="Map")

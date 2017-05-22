@@ -59,3 +59,96 @@ body{
   cursor: pointer;
   position: absolute;
 }
+
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+
+}
+
+.modal-content {
+    position: relative;
+    margin: auto;
+    padding: 0;
+    width: 80%;
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s;
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+}
+
+.close {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-header {
+    padding: 5vh ;
+    background-color: #202020;
+    border-top-right-radius:10px;
+    border-top-left-radius: 10px;
+}
+
+.modal-body {
+  padding: 10vh;
+  background: #FCCC40;
+}
+.modal-text{
+  color: #F5F5F5;
+  font-family:    Georgia, Helvetica, sans-serif;
+  font-size:      8vh;
+  font-weight:    bold;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: #000;
+}
+.modal-footer {
+    padding: 5vh ;
+    background-color: #202020;
+    border-bottom-right-radius:10px;
+    border-bottom-left-radius: 10px;
+}
+.backtolobby {
+    float: right;
+    background-color: #F56969;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    cursor:pointer;
+    cursor:hand;
+}
+.textlobby{
+  padding: 8px;
+  color: #E5E5E5;
+  font-family:    Arial, Helvetica, sans-serif;
+  font-size:      2vh;
+  font-weight:    bold;
+}
