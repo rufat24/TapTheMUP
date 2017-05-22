@@ -7,15 +7,33 @@ $(document).ready(function() {
   var key="";
   var teams=['blue','red','green'];
   var colors=['2f00ff','ff4545','4de14d'];
-  $(".map").hide();
   socket.on('numplayers', function (data) {
+    var a=parseInt(data.start,10);
     $('#num').text(data.num);
-    if(parseInt(data.start,10)==1){
+    if(a==0){
+      $(".map").hide();
+      $(".lobby").show();
+    }
+    else if(a==1){
       $(".lobby").hide();
       $(".map").show();
+      $('.join').hide();
+    }
+    else if(a==2){
+      $(".lobby").show();
+      $(".map").hide();
+      $('.join').hide();
+      $('#myModal').css('display','none');
+    }
+    else if(a==3){
+      $(".lobby").show();
+      $(".map").hide();
+      $('.join').show();
+      $('#myModal').css('display','none');
     }
   });
   socket.on('winner', function (data) {
+      ars=[];
       console.log(data.color);
         $('#myModal').css('display','block');
         if (parseInt(data.color,10)==colorInd) {
@@ -85,6 +103,9 @@ $(document).ready(function() {
      socket.emit('userjoin',{});
      $('.join').hide();
    });
+  $('.backtolobby').live('click',function() {
+      socket.emit('reset',{});
+    });
 
 
 

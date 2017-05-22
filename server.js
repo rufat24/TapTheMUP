@@ -12,12 +12,17 @@ httpserver.listen(8000, function(){
   console.log("Server listening on port 8000");
 });
 app.get('/', function(req, res){
-  res.render('lobby', {title: "Lobby", number:np.toString()});
+    res.render('lobby', {title: "Lobby", number:np.toString()});
 });
 
 
  io.sockets.on('connection', function(socket){
-   io.emit('numplayers',{num: np.toString(), start: "0"})
+   if(np==maxplayers){
+     socket.emit('numplayers',{num: np.toString(),start:'2'});
+   }
+   else{
+     socket.emit('numplayers',{num: np.toString(),start:'0'});
+   }
    socket.on('userjoin',function(){
      np++;
      socket.emit('mycolor',{color:(np-1).toString()});
@@ -34,9 +39,20 @@ app.get('/', function(req, res){
      mapdata[data.change]=data.color;
      io.emit('redraw',mapdata);
      if(winner(parseInt(data.color,10))){
+       mapdata={1:"-1",2:"-1",3:"-1",4:"-1",5:"-1",6:"-1",7:"-1",8:"-1",9:"-1",10:"-1"};
        io.emit('winner', {color:parseInt(data.color,10)})
+       np=0;
      }
    });
+   socket.on('reset',function(){
+     if(np==maxplayers){
+       socket.emit('numplayers',{num: np.toString(),start:'2'});
+     }
+     else{
+       socket.emit('numplayers',{num: np.toString(),start:'3'});
+     }
+   });
+
 
  });
 
