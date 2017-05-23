@@ -1,12 +1,14 @@
 $(document).ready(function() {
   var h=1;
   var ars=[];
-  var socket=io();
   var colorInd=0;
   var colorOf=0;
   var key="";
-  var teams=['blue','red','green'];
-  var colors=['2f00ff','ff4545','4de14d'];
+  var room="";
+  var socket;
+  var colors=['455CFF','ff4545','45FF67','FCFF45','45FFFC','8B45FF','FFB645','FF45F1'];
+$(".map").hide();
+if(socket!=null&&socket!=undefined){
   socket.on('numplayers', function (data) {
     var a=parseInt(data.start,10);
     $('#num').text(data.num);
@@ -83,7 +85,7 @@ $(document).ready(function() {
     $('img').mapster('rebind',options);
   });
 
-
+}
   $('area').live('click',function() {
     var a=parseInt($(this).attr('data-key'),10)-1;
       var options = {
@@ -99,13 +101,42 @@ $(document).ready(function() {
         socket.emit('click',{change:$(this).attr('data-key'),color:colorInd.toString()});
   });
 
-  $('.join').live('click',function() {
-     socket.emit('userjoin',{});
-     $('.join').hide();
+  $('[id^="join"]').live('click',function() {
+     var ab=($(this).attr("id"));
+     room=ab[ab.length-1].toString();
+     socket=io(room);
+     socket.emit('userjoin',{room:room});
+     $(this).hide();
    });
   $('.backtolobby').live('click',function() {
       socket.emit('reset',{});
     });
+  $('.createroom').live('click',function() {
+      $('#CreateModal').css('display','block');
+  });
+  $('.close').live('click',function() {
+        $('#CreateModal').css('display','none');
+  });
+  $('.buttoncr').live('click',function() {
+    $.ajax( {
+          url: "/createroom",
+          type: "post",
+          dataType: "json",
+          data: JSON.stringify({
+            players: $('#numpl').val(),
+            roomname: $('#roomn').val()
+          }),
+          contentType: "application/json",
+          complete: function(data) {
+                  console.log('success');
+                  console.log(data);
+                  window.location.href=window.location.href
+              }
+  });
+  $('#CreateModal').css('display','none');
+  $('#roomn').val("");
+  $('#numpl').val("");
+  });
 
 
 
