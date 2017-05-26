@@ -1,14 +1,22 @@
 $(document).ready(function() {
   var h=1;
   var ars=[];
+  var reset=0;
   var colorInd=0;
   var colorOf=0;
   var key="";
   var room="";
-  var socket;
+  var socket=io();
+  var timek=0;
+  var g=9.81;
+  var abla;
+  var abi;
+  var view=0;
   var colors=['455CFF','ff4545','45FF67','FCFF45','45FFFC','8B45FF','FFB645','FF45F1'];
-$(".map").hide();
-if(socket!=null&&socket!=undefined){
+  $(".map").hide();
+  //abi=window.setInterval(downwards,5);
+    $('.mainbody').css("height",$(document).height());
+  if(socket!=null&&socket!=undefined){
   socket.on('numplayers', function (data) {
     var a=parseInt(data.start,10);
     $('#num').text(data.num);
@@ -104,9 +112,22 @@ if(socket!=null&&socket!=undefined){
   $('[id^="join"]').live('click',function() {
      var ab=($(this).attr("id"));
      room=ab[ab.length-1].toString();
-     socket=io(room);
-     socket.emit('userjoin',{room:room});
+     socket.emit('userjoin',room);
      $(this).hide();
+     $.ajax( {
+           url: "/toroom",
+           type: "post",
+           dataType: "json",
+           data: JSON.stringify({
+             room: room
+           }),
+           contentType: "application/json",
+          complete: function(data) {
+            var ab=JSON.stringify(data);
+            console.log(ab);
+            document.write(data.responseText);
+         }
+   });
    });
   $('.backtolobby').live('click',function() {
       socket.emit('reset',{});
@@ -127,17 +148,56 @@ if(socket!=null&&socket!=undefined){
             roomname: $('#roomn').val()
           }),
           contentType: "application/json",
+          success: function(data){
+          },
           complete: function(data) {
-                  console.log('success');
-                  console.log(data);
-                  window.location.href=window.location.href
-              }
+            window.location.href=window.location.href
+          }
   });
   $('#CreateModal').css('display','none');
   $('#roomn').val("");
   $('#numpl').val("");
   });
-
-
-
 });
+
+/*
+function upwards(){
+    var time=timek/100;
+    var opa=$('.circle').css('top');
+    h=parseInt(opa.substr(0,opa.length-2),10);
+    h=Math.sqrt(2*h*g)*time;
+    h=$(window).height()-62.5-h;
+    timek+=5;
+    if(h>=opa.substr(0,opa.length-2)){
+      clearInterval(abla);
+      timek=0;
+      abi=window.setInterval(downwards,5);
+    }
+    else{
+      $('.circle').css('top',h.toString()+"px");
+    }
+  }
+  function downwards(){
+    var time=timek/100;
+    var opa=$('.circle').css('top');
+    if(reset==0){
+      h=parseInt(opa.substr(0,opa.length-2),10);
+      console.log(h);
+    }
+    else {
+      h=g*time*time/2;
+    }
+    timek+=5;
+    //console.log(opa.substr(0,opa.length-2));
+    if(opa.substr(0,opa.length-2)>=$(window).height()-62-.5){
+      clearInterval(abi);
+      reset=0;
+      timek=0;
+      abla=window.setInterval(upwards,5);
+    }
+    else{
+      $('.circle').css('top',h.toString()+"px");
+    }
+  }
+
+*/

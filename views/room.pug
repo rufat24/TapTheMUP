@@ -1,0 +1,16 @@
+doctype
+html
+  head
+    title=title
+    link(rel="stylesheet" href="css/styles.css")
+    script(src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.js")
+    script(src="js/scripts.js")
+    script(src="/socket.io/socket.io.js")
+  body
+    div.mainbody
+      div(class="room" id="room")
+        div(class="texty")=roomname
+        div(class="texty1")="Players:"
+        div(class="texty1")=players
+        div(class="texty1")="/"
+        div(class="texty1")=maxplayers
