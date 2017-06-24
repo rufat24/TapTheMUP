@@ -13,7 +13,6 @@ $(document).ready(function() {
   var abi;
   var view=0;
   var colors=['455CFF','ff4545','45FF67','FCFF45','45FFFC','8B45FF','FFB645','FF45F1'];
-  $(".map").hide();
   //abi=window.setInterval(downwards,5);
     $('.mainbody').css("height",$(document).height());
   if(socket!=null&&socket!=undefined){
@@ -114,21 +113,26 @@ $(document).ready(function() {
      room=ab[ab.length-1].toString();
      socket.emit('userjoin',room);
      $(this).hide();
-     $.ajax( {
+     window.location+="toroom?room="+room;
+     /*$.ajax( {
            url: "/toroom",
-           type: "post",
+           type: "get",
            dataType: "json",
            data: JSON.stringify({
              room: room
            }),
-           contentType: "application/json",
+          contentType: "application/json",
           complete: function(data) {
-            var ab=JSON.stringify(data);
-            console.log(ab);
-            document.write(data.responseText);
+            console.log(data);
+            var doc = document.open("text/html", "replace");
+            doc.write(data.responseText);
+            doc.close();
+
          }
+       });*/
+
    });
-   });
+
   $('.backtolobby').live('click',function() {
       socket.emit('reset',{});
     });
@@ -159,7 +163,21 @@ $(document).ready(function() {
   $('#numpl').val("");
   });
 });
-
+function http(a,theUrl,data)
+ {
+     var xmlHttp = new XMLHttpRequest();
+     if(a.localeCompare("get")==0){
+        xmlHttp.open( "GET", theUrl, true );
+        xmlHttp.send( null );
+     }
+     else if(a.localeCompare("post")==0){
+       console.log(data);
+        xmlHttp.open( "POST", theUrl, true );
+        xmlHttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+        xmlHttp.send( data );
+     }
+     return xmlHttp.responseText;
+}
 /*
 function upwards(){
     var time=timek/100;
