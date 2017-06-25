@@ -18,24 +18,18 @@ app.use(session({
   secret: 'keyboard cat',
   resave: false,
   saveUninitialized: true,
-  cookie: {
-  joined: 0,
-  room: 0,
-  }
 }))
 httpserver.listen(8000, function(){
   console.log("Server listening on port 8000");
 });
 app.get('/', function(req, res){
   console.log(req.sessionID);
-    if(req.session.cookie.joined==1){
-      console.log("UFFFF");
-      res.redirect('toroom');
+    if(req.session.joined==1){
+      res.redirect('toroom?room='+req.session.room);
     }
     res.render('lobby', {title: "Lobby", number:np.toString(), maxplayers:maxplayers.toString(),values:rooms});
 });
 app.use(function(req,res,next){
-   console.log(req.url);
    next();
 });
 app.post('/createroom', function(req, res){
@@ -49,20 +43,22 @@ app.post('/createroom', function(req, res){
 });
 
 app.get('/toroom', function(req, res,next){
-  console.log(req.session.cookie.room);
-  req.session.cookie.joined=1;
-  if(!req.query.room){
-    console.log("UI");
-  req.session.cookie.room=parseInt(req.query.room,10);};
+  if(req.session.joined===undefined){
+    console.log("AAA");
+    req.session.joined=1;
+    if(req.query.room!==undefined || req.query.room!==null){
+      req.session.room=parseInt(req.query.room,10)
+    };
+  }
   if(!rooms[req.query.room]){
     next();
   };
   res.render('room',
       {
-        title: "Room "+req.session.cookie.room,
-        players:rooms[req.session.cookie.room].players,
-        maxplayers:rooms[req.session.cookie.room].maxplayers,
-        roomname:rooms[req.session.cookie.room].roomname
+        title: "Room "+req.session.room,
+        players:rooms[req.session.room].players,
+        maxplayers:rooms[req.session.room].maxplayers,
+        roomname:rooms[req.session.room].roomname
       });
   });
  io.sockets.on('connection', function(socket){
